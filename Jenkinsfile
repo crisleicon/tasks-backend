@@ -21,13 +21,13 @@ pipeline {
         }
       }
     }
-    stage ('Quality Gate'){
-      steps{
-        sleep(30)
-        timeout(time: 1, unit: 'MINUTES') {
-          waitForQualityGate abortPipeline: true
+    stage("SonarQube Quality Gate") { 
+        timeout(time: 1, unit: 'HOURS') { 
+           def qg = waitForQualityGate() 
+           if (qg.status != 'OK') {
+             error "Pipeline aborted due to quality gate failure: ${qg.status}"
+           }
         }
-      }
     }
   }
 }
