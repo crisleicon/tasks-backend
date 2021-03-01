@@ -59,6 +59,13 @@ pipeline {
         }
       }
     }
+
+    stage ('Deploy Prod'){
+      steps{
+        sh 'docker-compose buid'
+        sh 'docker-compose up -d'
+      }
+    }
   }
 }
 
